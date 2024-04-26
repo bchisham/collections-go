@@ -8,3 +8,6 @@
 /dataSources.local.xml
 
 .idea
+/aws.xml
+/collections-go.iml
+/vcs.xml
