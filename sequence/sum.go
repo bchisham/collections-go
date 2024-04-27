@@ -1,6 +1,8 @@
 package sequence
 
-func Sum[T any, N NumericType](list []T, f func(T) N) N {
+import "collections-go/contracts"
+
+func Sum[T any, N contracts.NumericType](list []T, f func(T) N) N {
 	var sum N
 	for _, item := range list {
 		sum += f(item)
@@ -9,5 +11,5 @@ func Sum[T any, N NumericType](list []T, f func(T) N) N {
 }
 
 func (seq numericAggregator[T, N]) Sum(f func(T) N) N {
-	return Sum(seq.Unwrap(), f)
+	return Sum(seq.ToSlice(), f)
 }

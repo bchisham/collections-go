@@ -1,6 +1,9 @@
 package sequence
 
-import "context"
+import (
+	"collections-go/contracts"
+	"context"
+)
 
 type generator[T any, U any] struct {
 	accumulator[T, U]
@@ -8,11 +11,11 @@ type generator[T any, U any] struct {
 	ctx    context.Context
 }
 
-func NewGenerator[T any, U any](ctx context.Context, f TransformFunc[U, T], source chan U) Generator[T, U] {
+func NewGenerator[T any, U any](ctx context.Context, f TransformFunc[U, T], source chan U) contracts.Generator[T, U] {
 	return &generator[T, U]{accumulator[T, U]{[]T{}, f}, source, ctx}
 }
 
-func (seq *generator[T, U]) Yield(value U) Generator[T, U] {
+func (seq *generator[T, U]) Yield(value U) contracts.Generator[T, U] {
 	select {
 	case <-seq.ctx.Done():
 		return seq

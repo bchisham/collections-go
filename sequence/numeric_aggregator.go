@@ -1,5 +1,7 @@
 package sequence
 
-type numericAggregator[T any, N NumericType] struct {
+import "collections-go/contracts"
+
+type numericAggregator[T any, N contracts.NumericType] struct {
 	Type[T]
 }

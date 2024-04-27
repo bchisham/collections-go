@@ -1,8 +1,8 @@
 package sequence
 
-type ApplyFunc[T any] func(item T) error
+import "collections-go/contracts"
 
-func Apply[T any](list []T, f ApplyFunc[T]) error {
+func Each[T any](list []T, f contracts.ApplyFunc[T]) error {
 	for _, item := range list {
 		if err := f(item); err != nil {
 			return err
@@ -11,6 +11,15 @@ func Apply[T any](list []T, f ApplyFunc[T]) error {
 	return nil
 }
 
-func (s Type[T]) Apply(f ApplyFunc[T]) error {
-	return Apply(s, f)
+func (seq Type[T]) Each(f contracts.ApplyFunc[T]) error {
+	return Each(seq, f)
+}
+
+func (seq ContextualSequence[T]) Each(f contracts.ApplyWithContextFunc[T]) error {
+	for _, item := range seq.Sequence {
+		if err := f(seq.ctx, item); err != nil {
+			return err
+		}
+	}
+	return nil
 }
