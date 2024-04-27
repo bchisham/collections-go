@@ -21,7 +21,7 @@ type Sequence[T any] interface {
 	// FirstWhereMust returns the first item in the sequence that satisfies the predicate.
 	FirstWhereMust(predicate UnaryPredicateMust[T]) (result T, found bool)
 	// WithContext returns a ContextualSequence with the given context
-	WithContext(ctx context.Context) ContextualSequence[T]
+	EveryMust(f UnaryPredicateMust[T]) bool
 }
 
 // ContextualSequence is a type that represents a sequence of type T with a context.

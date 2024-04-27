@@ -33,7 +33,7 @@ func (seq Type[T]) Where(f contracts.UnaryPredicate[T]) (contracts.Sequence[T], 
 // and returns a boolean value. It returns a sequence of type T with values that
 // satisfy the function
 func WhereMust[T any](seq []T, f contracts.UnaryPredicateMust[T]) contracts.Sequence[T] {
-	return New(seq).WhereMust(f)
+	return FromSlicef(seq).WhereMust(f)
 }
 
 func (seq ContextualSequence[T]) Where(f contracts.ContextPredicate[T]) (contracts.Sequence[T], error) {

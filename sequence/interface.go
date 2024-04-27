@@ -12,8 +12,8 @@ type ContextualSequence[T any] struct {
 	ctx      context.Context
 }
 
-// New creates a new sequence of type T
-func New[T any](list []T) contracts.Sequence[T] {
+// FromSlicef creates a new sequence of type T
+func FromSlicef[T any](list []T) contracts.Sequence[T] {
 	return Type[T](list)
 }
 

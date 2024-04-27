@@ -12,7 +12,7 @@ func PrintItem[T any](item T) error {
 }
 
 func Examples() {
-	listOfInts := sequence.New([]int{1, 2, 3, 4, 5})
+	listOfInts := sequence.FromSlicef([]int{1, 2, 3, 4, 5})
 	fmt.Println("list of ints")
 	_ = listOfInts.Each(PrintItem[int])
 	fmt.Println("Sum")
