@@ -17,11 +17,18 @@ type NumericType interface {
 // PredicateFunc is a function that takes a value of type T and returns a boolean value.
 type PredicateFunc[T any] func(T) bool
 
+type Unwrapable[T any] interface {
+	Unwrap() []T
+}
+
 type Interface[T any] interface {
 	Apply(f ApplyFunc[T]) error
 	Where(f PredicateFunc[T]) Type[T]
 	FirstWhere(list []T, predicate PredicateFunc[T]) (result T, found bool)
-	Unwrap() []T
+}
+
+type Generator[T any, U any] interface {
+	Yield(value U) Generator[T, U]
 }
 
 // New creates a new sequence of type T
