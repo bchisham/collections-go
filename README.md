@@ -20,17 +20,17 @@ type Sequence[T any] interface {
 }
 ```
 
-A sequence can be created from a slice using the `sequence.New` function:
+A sequence can be created from a slice using the `sequence.FromSlice` function:
 
 ```go
-seq := sequence.New([]int{1, 2, 3, 4, 5})
+seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
 ```
 
 
 The `ToSlice` method returns a slice with the elements of the sequence. This method is useful when you need to pass the elements of the sequence to a function that expects a slice.
 
 ```go
-seq := sequence.New([]int{1, 2, 3, 4, 5})
+seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
 slice := seq.ToSlice()
 ```
 
@@ -41,7 +41,7 @@ type ApplyFunc[T any] func(T) error
 ```
 
 ```go
-seq := sequence.New([]int{1, 2, 3, 4, 5})
+seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
 err := seq.Each(func(i int) error {
     fmt.Println(i)
     return nil
@@ -56,7 +56,7 @@ type UnaryPredicate[T any] func(T) bool
 ```
 
 ```go
-seq := sequence.New([]int{1, 2, 3, 4, 5})
+seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
 filtered, err := seq.Where(func(i int) bool {
     return i%2 == 0
 })
@@ -69,7 +69,7 @@ type UnaryPredicateMust[T any] func(T) (bool, error)
 ```
 
 ```go
-seq := sequence.New([]int{1, 2, 3, 4, 5})
+seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
 filtered := seq.WhereMust(func(i int) (bool, error) {
     return i%2 == 0, nil
 })
@@ -82,11 +82,26 @@ type UnaryPredicateMust[T any] func(T) (bool, error)
 ```
 
 ```go
-seq := sequence.New([]int{1, 2, 3, 4, 5})
+seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
 result, found := seq.FirstWhereMust(func(i int) (bool, error) {
     return i%2 == 0, nil
 })
 ```
+
+The `Every` method returns true if all elements of the sequence satisfy a predicate. The predicate must have the following signature:
+
+```go
+
+type UnaryPredicate[T any] func(T) bool
+```
+
+```go
+seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
+result := seq.Every(func(i int) bool {
+    return i > 0
+})
+```
+
 
 ### Transforming a sequence
 A sequence transformer is defined by the following interface:
@@ -105,8 +120,9 @@ type TransformFunc[T any, U any] func(T) (U, error)
 ```
 
 ```go
-seq := sequence.New([]int{1, 2, 3, 4, 5})
+seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
 transformed := seq.TransformMust(func(i int) (string, error) {
     return strconv.Itoa(i), nil
 })
 ```
+

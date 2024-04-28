@@ -25,6 +25,6 @@ func (seq *generator[T, U]) Yield(value U) contracts.Generator[T, U] {
 	return seq
 }
 
-func (seq *generator[T, U]) Unwrap() []T {
+func (seq *generator[T, U]) ToSlice() []T {
 	return seq.Type
 }

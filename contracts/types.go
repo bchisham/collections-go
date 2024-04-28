@@ -23,9 +23,9 @@ type SequenceType[T any] []T
 type MapType[K comparable, V any] map[K]V
 
 type ToSlice[T any] interface {
-	Unwrap() []T
+	ToSlice() []T
 }
 
 type ToMap[K comparable, V any] interface {
-	Unwrap() map[K]V
+	ToMap() map[K]V
 }

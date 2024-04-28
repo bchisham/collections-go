@@ -12,9 +12,9 @@ func NewAccumulator[T any, U any](seq []T, f TransformFunc[U, T]) contracts.Gene
 }
 
 func (seq *accumulator[T, U]) Yield(value U) contracts.Generator[T, U] {
-	return &accumulator[T, U]{append(seq.Unwrap(), seq.TransformFunc(value)), seq.TransformFunc}
+	return &accumulator[T, U]{append(seq.ToSlice(), seq.TransformFunc(value)), seq.TransformFunc}
 }
 
-func (seq *accumulator[T, U]) Unwrap() []T {
+func (seq *accumulator[T, U]) ToSlice() []T {
 	return seq.Type
 }

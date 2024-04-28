@@ -1,6 +1,9 @@
 package contracts
 
-import "context"
+import (
+	"collections-go/pair"
+	"context"
+)
 
 // ApplyFunc is a function that takes a value of type T and returns an error.
 type ApplyFunc[T any] func(item T) error
@@ -10,7 +13,6 @@ type ApplyWithContextFunc[T any] func(ctx context.Context, item T) error
 
 // Sequence is a type that represents a sequence of type T
 type Sequence[T any] interface {
-	// ToSlice converts the sequence to a slice of type T
 	ToSlice() []T
 	// Each applies a function to each item in the sequence and returns an error if one occurs
 	Each(f ApplyFunc[T]) error
@@ -20,7 +22,8 @@ type Sequence[T any] interface {
 	WhereMust(f UnaryPredicateMust[T]) Sequence[T]
 	// FirstWhereMust returns the first item in the sequence that satisfies the predicate.
 	FirstWhereMust(predicate UnaryPredicateMust[T]) (result T, found bool)
-	// WithContext returns a ContextualSequence with the given context
+	Every(f UnaryPredicate[T]) (bool, error)
+	// EveryMust returns true if every item in the sequence satisfies the predicate.
 	EveryMust(f UnaryPredicateMust[T]) bool
 }
 
@@ -30,4 +33,26 @@ type ContextualSequence[T any] interface {
 	Each(f ApplyWithContextFunc[T]) error
 	Where(f ContextPredicate[T]) (Sequence[T], error)
 	FirstWhere(predicate ContextPredicate[T]) (T, bool, error)
+}
+
+type Map[K comparable, V any] interface {
+	ToMap() map[K]V
+	Each(f MapPredicate[K, V]) error
+	Every(f MapPredicate[K, V]) (bool, error)
+	EveryMust(f MapPredicateMust[K, V]) bool
+	Where(f MapPredicate[K, V]) (Map[K, V], error)
+	WhereMust(f MapPredicateMust[K, V]) Map[K, V]
+	Keys() Sequence[K]
+	Values() Sequence[V]
+}
+
+type MapWithContext[K comparable, V any] interface {
+	Each(f MapPredicateWithContext[K, V]) error
+	Every(f MapPredicateWithContext[K, V]) (bool, error)
+	Where(f MapPredicateWithContext[K, V]) (MapWithContext[K, V], error)
+}
+
+type MapJoiner[K comparable, V any, U any] interface {
+	Join(other Map[K, U]) (Map[K, pair.Type[V, U]], error)
+	JoinMust(other Map[K, U]) Map[K, pair.Type[V, U]]
 }
