@@ -49,7 +49,7 @@ err := seq.Each(func(i int) error {
 ```
 
 
-The `Where` method filters the elements of the sequence based on a predicate. The predicate must have the following signature:
+The `WhereMust` method filters the elements of the sequence based on a predicate. The predicate must have the following signature:
 
 ```go
 type UnaryPredicate[T any] func(T) bool
@@ -57,12 +57,12 @@ type UnaryPredicate[T any] func(T) bool
 
 ```go
 seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
-filtered, err := seq.Where(func(i int) bool {
+filtered, err := seq.WhereMust(func(i int) bool {
     return i%2 == 0
 })
 ```
 
-The `WhereMust` method filters the elements of the sequence based on a predicate that may return an error. The predicate must have the following signature:
+The `Where` method filters the elements of the sequence based on a predicate that may return an error. The predicate must have the following signature:
 
 ```go
 type UnaryPredicateMust[T any] func(T) (bool, error)
@@ -75,20 +75,20 @@ filtered := seq.WhereMust(func(i int) (bool, error) {
 })
 ```
 
-The `FirstWhereMust` method returns the first element that satisfies a predicate that may return an error. The predicate must have the following signature:
+The `FirstWhere` method returns the first element that satisfies a predicate that may return an error. The predicate must have the following signature:
 
 ```go
-type UnaryPredicateMust[T any] func(T) (bool, error)
+type UnaryPredicate[T any] func(T) (bool, error)
 ```
 
 ```go
 seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
-result, found := seq.FirstWhereMust(func(i int) (bool, error) {
+result, found := seq.FirstWhere(func(i int) (bool, error) {
     return i%2 == 0, nil
 })
 ```
 
-The `Every` method returns true if all elements of the sequence satisfy a predicate. The predicate must have the following signature:
+The `EveryMust` method returns true if all elements of the sequence satisfy a predicate. The predicate must have the following signature:
 
 ```go
 
@@ -97,11 +97,10 @@ type UnaryPredicate[T any] func(T) bool
 
 ```go
 seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
-result := seq.Every(func(i int) bool {
+result := seq.EveryMust(func(i int) bool {
     return i > 0
 })
 ```
-
 
 ### Transforming a sequence
 A sequence transformer is defined by the following interface:
@@ -109,11 +108,11 @@ A sequence transformer is defined by the following interface:
 ```go
 package sequence
 type Transformer[T any, U any] interface {
-	TransformMust(f TransformFunc[T, U]) Type[U]
+	TransformMust(f TransformFuncMust[T, U]) Type[U]
 }
 ```
 
-The `TransformMust` method applies a function to each element of the sequence and returns a new sequence with the transformed elements. The function must have the following signature:
+The `Transform` method applies a function to each element of the sequence and returns a new sequence with the transformed elements. The function must have the following signature:
 
 ```go
 type TransformFunc[T any, U any] func(T) (U, error)
@@ -121,7 +120,7 @@ type TransformFunc[T any, U any] func(T) (U, error)
 
 ```go
 seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
-transformed := seq.TransformMust(func(i int) (string, error) {
+transformed := seq.Transform(func(i int) (string, error) {
     return strconv.Itoa(i), nil
 })
 ```
