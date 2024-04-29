@@ -5,7 +5,7 @@ Collections Go is a library that provides a set of collections for Go.
 It provides methods to manipulate collections in a functional way.
 
 ## Sequence
-A sequence is a collection that has an order. It is possible to access elements by index.
+A sequence is a collection that has an order.
 The sequence interface is defined as follows:
 
 ```go
@@ -16,7 +16,6 @@ type Sequence[T any] interface {
 	Where(f UnaryPredicate[T]) (Sequence[T], error)
 	WhereMust(f UnaryPredicateMust[T]) Sequence[T]
 	FirstWhereMust(predicate UnaryPredicateMust[T]) (result T, found bool)
-	WithContext(ctx context.Context) ContextualSequence[T]
 }
 ```
 
@@ -65,12 +64,12 @@ filtered, err := seq.WhereMust(func(i int) bool {
 The `Where` method filters the elements of the sequence based on a predicate that may return an error. The predicate must have the following signature:
 
 ```go
-type UnaryPredicateMust[T any] func(T) (bool, error)
+type UnaryPredicate[T any] func(T) (bool, error)
 ```
 
 ```go
 seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
-filtered := seq.WhereMust(func(i int) (bool, error) {
+filtered := seq.Where(func(i int) (bool, error) {
     return i%2 == 0, nil
 })
 ```
@@ -123,5 +122,13 @@ seq := sequence.FromSlice([]int{1, 2, 3, 4, 5})
 transformed := seq.Transform(func(i int) (string, error) {
     return strconv.Itoa(i), nil
 })
+```
+
+### Contextual Sequence 
+
+This type extends the basic Sequence concepts but the function signatures but the corresponding function signatures accept a context.Context.
+
+```go
+sequence.WithContext(context.TODO()).Build({}int{1, 2, 3, 4, 5}).Where(func (ctx context.Context, i int) (bool, error){return i%2, nil })
 ```
 
