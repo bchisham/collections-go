@@ -46,13 +46,26 @@ type Map[K comparable, V any] interface {
 	Values() Sequence[V]
 }
 
+// MapWithContext is a type that represents a map of type K and V with a context.
 type MapWithContext[K comparable, V any] interface {
 	Each(f MapPredicateWithContext[K, V]) error
 	Every(f MapPredicateWithContext[K, V]) (bool, error)
 	Where(f MapPredicateWithContext[K, V]) (MapWithContext[K, V], error)
 }
 
+// MapJoiner is a type that represents a map of type K and V that can be joined with another map of type K and U.
 type MapJoiner[K comparable, V any, U any] interface {
 	Join(other Map[K, U]) (Map[K, pair.Type[V, U]], error)
 	JoinMust(other Map[K, U]) Map[K, pair.Type[V, U]]
+}
+
+// MapTransformer is a type that represents a map of type K and V that can be transformed into a map of type K and U.
+type MapTransformer[K comparable, V any, U any] interface {
+	Transform(f MapTransformFunc[K, V, U]) (Map[K, U], error)
+	TransformMust(f MapTransformFuncMust[K, V, U]) Map[K, U]
+}
+
+// MapWithContextTransformer is a type that represents a map of type K and V that can be transformed into a map of type K and U with a context.
+type MapWithContextTransformer[K comparable, V any, U any] interface {
+	Transform(f MapTransformFuncWithContext[K, V, U]) (Map[K, U], error)
 }
