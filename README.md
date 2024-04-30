@@ -132,7 +132,8 @@ This type extends the basic Sequence concepts but the function signatures but th
 sequence.WithContext(context.TODO()).Build({}int{1, 2, 3, 4, 5}).Where(func (ctx context.Context, i int) (bool, error){return i%2, nil })
 ```
 ## Map
-Is an abstraction of an associative container, and implemented for the golang map[K]V type. The Map[K,V] contract defines Where, WhereMust, Each, and Every operations analogous to those defined for the Sequence[T] contract.
+Is an abstraction of an associative container, and implemented for the golang map[K]V type. The `Map[K,V]` contract defines`Where`, `WhereMust`,
+`Each`, and `Every` operations analogous to those defined for the `Sequence[T]` contract.
 
 ### Joiner
 The `Joiner` contract defines the operations that join the given maps by key producing a map of keys to a join product as a `Map[K, pair.Type[FirstType, SecondType]`
