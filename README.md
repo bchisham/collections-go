@@ -51,7 +51,7 @@ err := seq.Each(func(i int) error {
 The `WhereMust` method filters the elements of the sequence based on a predicate. The predicate must have the following signature:
 
 ```go
-type UnaryPredicate[T any] func(T) bool
+type UnaryPredicateMust[T any] func(T) bool
 ```
 
 ```go
@@ -131,4 +131,19 @@ This type extends the basic Sequence concepts but the function signatures but th
 ```go
 sequence.WithContext(context.TODO()).Build({}int{1, 2, 3, 4, 5}).Where(func (ctx context.Context, i int) (bool, error){return i%2, nil })
 ```
+## Map
+Is an abstraction of an associative container, and implemented for the golang map[K]V type. The Map[K,V] contract defines Where, WhereMust, Each, and Every operations analogous to those defined for the Sequence[T] contract.
 
+### Joiner
+The `Joiner` contract defines the operations that join the given maps by key producing a map of keys to a join product as a `Map[K, pair.Type[FirstType, SecondType]`
+
+```go
+type Joiner[K, FirstType, SecondType] {
+   Join(other Map[K, SecondType]) Map[K, pair.Pair[FirstType, SecondType]], error
+   JoinMust(other Map[K, SecondType]) Map[pair.Pair[FirstType, SecondType]]
+}
+```
+
+### Map Transformer
+
+Map transformer operates analogously to the sequence Transform.
