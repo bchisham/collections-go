@@ -11,12 +11,10 @@ func FromMap[T comparable, U any](m map[T]U) contracts.Map[T, U] {
 	return Type[T, U](m)
 }
 
-func (m Type[T, U]) Each(f contracts.MapPredicate[T, U]) error {
-	for k, v := range m {
-		if ok, err := f(k, v); err != nil {
+func (m Type[T, U]) Each(f contracts.ApplyFunc[U]) error {
+	for _, v := range m {
+		if err := f(v); err != nil {
 			return err
-		} else if !ok {
-			return contracts.ErrAssertionFailed
 		}
 	}
 	return nil

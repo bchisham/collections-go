@@ -145,6 +145,46 @@ type Joiner[K, FirstType, SecondType] {
 }
 ```
 
+```go
+func main() {
+	mapOfInts := map[int]int{1: 1, 2: 2, 3: 3, 4: 4, 5: 5}
+	mapOfIntToString := map[int]string{1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}
+    joiner := association.NewJoiner[int, int, string](mapOfInts)
+	joined, err := joiner.Join(mapOfIntToString)
+	if err != nil {
+		fmt.Println("error: ", err)
+	} else {
+		fmt.Println("joined map")
+		_ = joined.Each(examples.PrintItem[pair.Type[int, string]])
+	}
+}
+   ```
+
+```plain
+joined map
+1: {1 one}
+2: {2 two}
+3: {3 three}
+4: {4 four}
+5: {5 five}
+```
+
 ### Map Transformer
 
 Map transformer operates analogously to the sequence Transform.
+
+```go
+func main() {
+    mapOfIntToString := association.NewMapTransform[int, int, string](mapOfInts).TransformMust(func(v int) string {
+    return fmt.Sprintf("%d", v)
+    })
+}
+```
+
+```plain
+1: 1
+2: 2
+3: 3
+4: 4
+5: 5
+```

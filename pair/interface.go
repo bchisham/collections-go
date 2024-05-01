@@ -1,5 +1,7 @@
 package pair
 
+import "fmt"
+
 type Type[T any, U any] struct {
 	first  T
 	second U
@@ -15,4 +17,8 @@ func (p Type[T, U]) First() T {
 
 func (p Type[T, U]) Second() U {
 	return p.second
+}
+
+func (p Type[T, U]) String() string {
+	return fmt.Sprintf("(%v, %v)", p.first, p.second)
 }

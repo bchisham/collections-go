@@ -1,20 +1,16 @@
 package sequence
 
 import (
+	"collections-go/examples"
 	"collections-go/sequence"
 	"fmt"
 	"strconv"
 )
 
-func PrintItem[T any](item T) error {
-	_, err := fmt.Println("Item: ", item)
-	return err
-}
-
 func Examples() {
 	listOfInts := sequence.FromSlice([]int{1, 2, 3, 4, 5})
 	fmt.Println("list of ints")
-	_ = listOfInts.Each(PrintItem[int])
+	_ = listOfInts.Each(examples.PrintItem[int])
 	fmt.Println("Sum")
 	//sum of the list
 	sum := sequence.Sum(listOfInts.ToSlice(), func(i int) int {
@@ -47,11 +43,11 @@ func Examples() {
 	})
 	fmt.Println("filtered list")
 	_ = filtered.Each(func(i int) error {
-		return PrintItem(i)
+		return examples.PrintItem(i)
 	})
 	fmt.Println("TransformMust")
 	//transform to a list of strings
 	listOfStrings := sequence.NewTransformer[int, string](listOfInts).TransformMust(strconv.Itoa)
 	fmt.Println("list of strings")
-	_ = listOfStrings.Each(PrintItem[string])
+	_ = listOfStrings.Each(examples.PrintItem[string])
 }

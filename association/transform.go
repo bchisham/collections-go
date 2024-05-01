@@ -14,8 +14,8 @@ type contextualMapTransform[K comparable, V1 any, V2 any] struct {
 	ctx context.Context
 }
 
-func NewMapTransform[K comparable, V1 any, V2 any](m contracts.MapType[K, V1]) contracts.MapTransformer[K, V1, V2] {
-	return mapTransform[K, V1, V2]{Type: Type[K, V1](m)}
+func NewMapTransform[K comparable, V1 any, V2 any](m contracts.Map[K, V1]) contracts.MapTransformer[K, V1, V2] {
+	return mapTransform[K, V1, V2]{Type: Type[K, V1](m.ToMap())}
 }
 
 func NewContextualMapTransform[K comparable, V1 any, V2 any](m contracts.MapType[K, V1], ctx context.Context) contracts.MapWithContextTransformer[K, V1, V2] {
@@ -25,7 +25,7 @@ func NewContextualMapTransform[K comparable, V1 any, V2 any](m contracts.MapType
 func (m mapTransform[K, V1, V2]) Transform(f contracts.MapTransformFunc[K, V1, V2]) (contracts.Map[K, V2], error) {
 	result := make(map[K]V2)
 	for k, v := range m.Type {
-		if transformed, err := f(k, v); err != nil {
+		if transformed, err := f(v); err != nil {
 			return nil, err
 		} else {
 			result[k] = transformed
@@ -37,7 +37,7 @@ func (m mapTransform[K, V1, V2]) Transform(f contracts.MapTransformFunc[K, V1, V
 func (m mapTransform[K, V1, V2]) TransformMust(f contracts.MapTransformFuncMust[K, V1, V2]) contracts.Map[K, V2] {
 	result := make(map[K]V2)
 	for k, v := range m.Type {
-		result[k] = f(k, v)
+		result[k] = f(v)
 	}
 	return FromMap[K, V2](result)
 }
@@ -46,7 +46,7 @@ func (m contextualMapTransform[K, V1, V2]) Transform(f contracts.MapTransformFun
 	result := make(map[K]V2)
 	var err error
 	for k, v := range m.Type {
-		result[k], err = f(m.ctx, k, v)
+		result[k], err = f(m.ctx, v)
 		if err != nil {
 			return nil, err
 		}

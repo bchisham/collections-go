@@ -37,7 +37,7 @@ type ContextualSequence[T any] interface {
 
 type Map[K comparable, V any] interface {
 	ToMap() map[K]V
-	Each(f MapPredicate[K, V]) error
+	Each(f ApplyFunc[V]) error
 	Every(f MapPredicate[K, V]) (bool, error)
 	EveryMust(f MapPredicateMust[K, V]) bool
 	Where(f MapPredicate[K, V]) (Map[K, V], error)
