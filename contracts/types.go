@@ -29,3 +29,7 @@ type ToSlice[T any] interface {
 type ToMap[K comparable, V any] interface {
 	ToMap() map[K]V
 }
+
+type ToChannel[T any] interface {
+	ToChannel() chan T
+}
