@@ -33,14 +33,14 @@ func Examples() {
 		_ = filtered.Each(examples.PrintItem[int])
 	}
 
-	mapOfIntToString := association.NewMapTransform[int, int, string](mapOfInts).TransformMust(func(v int) string {
+	mapOfIntToString := association.NewMapTransform[string](mapOfInts).TransformMust(func(v int) string {
 		return fmt.Sprintf("%d", v)
 	})
 	fmt.Println("map of strings")
 	_ = mapOfIntToString.Each(examples.PrintItem[string])
 
 	fmt.Println("join")
-	joiner := association.NewJoiner[int, int, string](mapOfInts)
+	joiner := association.NewJoiner[string](mapOfInts)
 	joined, err := joiner.Join(mapOfIntToString)
 	if err != nil {
 		fmt.Println("error: ", err)
@@ -48,5 +48,4 @@ func Examples() {
 		fmt.Println("joined map")
 		_ = joined.Each(examples.PrintItem[pair.Type[int, string]])
 	}
-
 }

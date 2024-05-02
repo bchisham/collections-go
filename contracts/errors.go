@@ -10,3 +10,4 @@ func (e ErrorType) Error() string {
 }
 
 var ErrAssertionFailed = ErrorType{Code: 1, Message: "Assertion failed"}
+var ErrContextDone = ErrorType{Code: 2, Message: "Context done"}
