@@ -139,7 +139,7 @@ Is an abstraction of an associative container, and implemented for the golang ma
 The `Joiner` contract defines the operations that join the given maps by key producing a map of keys to a join product as a `Map[K, pair.Type[FirstType, SecondType]`
 
 ```go
-type Joiner[K, FirstType, SecondType] {
+type Joiner[SecondType,K, FirstType] {
    Join(other Map[K, SecondType]) Map[K, pair.Pair[FirstType, SecondType]], error
    JoinMust(other Map[K, SecondType]) Map[pair.Pair[FirstType, SecondType]]
 }
@@ -149,7 +149,7 @@ type Joiner[K, FirstType, SecondType] {
 func main() {
 	mapOfInts := map[int]int{1: 1, 2: 2, 3: 3, 4: 4, 5: 5}
 	mapOfIntToString := map[int]string{1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}
-    joiner := association.NewJoiner[int, int, string](mapOfInts)
+    joiner := association.NewJoiner[string](mapOfInts)
 	joined, err := joiner.Join(mapOfIntToString)
 	if err != nil {
 		fmt.Println("error: ", err)
@@ -175,7 +175,7 @@ Map transformer operates analogously to the sequence Transform.
 
 ```go
 func main() {
-    mapOfIntToString := association.NewMapTransform[int, int, string](mapOfInts).TransformMust(func(v int) string {
+    mapOfIntToString := association.NewMapTransform[string](mapOfInts).TransformMust(func(v int) string {
     return fmt.Sprintf("%d", v)
     })
 }
