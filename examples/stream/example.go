@@ -32,7 +32,7 @@ func ChannelExample() {
 	outputSequence, _ := stream.IteratorToSlice(dlCtx, ch)
 
 	wg.Wait()
-
+        ch.Close()
 	err = outputSequence.Each(examples.PrintItem[int])
 	if err != nil {
 		fmt.Println(err)
