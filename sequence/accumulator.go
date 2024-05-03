@@ -4,17 +4,26 @@ import "collections-go/contracts"
 
 type accumulator[T any, U any] struct {
 	Type[T]
-	TransformFunc[U, T]
+	Output        Type[U]
+	TransformFunc TransformFunc[T, U]
+	idx           int
 }
 
-func NewAccumulator[T any, U any](seq []T, f TransformFunc[U, T]) contracts.Generator[T, U] {
-	return &accumulator[T, U]{seq, f}
+func NewAccumulator[T any, U any](seq []T, f TransformFunc[T, U]) contracts.Generator[U] {
+	output := make([]U, 0)
+	return &accumulator[T, U]{seq, output, f, 0}
 }
 
-func (seq *accumulator[T, U]) Yield(value U) contracts.Generator[T, U] {
-	return &accumulator[T, U]{append(seq.ToSlice(), seq.TransformFunc(value)), seq.TransformFunc}
+func (seq *accumulator[T, U]) Yield() error {
+	if seq.idx >= seq.Type.Length() {
+		return ErrEndOfSequence
+	}
+	value := seq.Type[seq.idx]
+	seq.idx++
+	seq.Output = append(seq.Output, seq.TransformFunc(value))
+	return nil
 }
 
-func (seq *accumulator[T, U]) ToSlice() []T {
-	return seq.Type
+func (seq *accumulator[T, U]) ToSlice() contracts.Sequence[U] {
+	return seq.Output
 }

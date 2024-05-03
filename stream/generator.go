@@ -12,18 +12,18 @@ type chanGenerator[T any] struct {
 	sequence.Type[T]
 }
 
-func NewGenerator[T any](ctx context.Context, c contracts.Channel[T]) contracts.IteratorToSlice[T] {
+func NewGenerator[T any](ctx context.Context, c contracts.Channel[T]) contracts.Generator[T] {
 	return &chanGenerator[T]{chanWrapper[T]{c.ToChannel(), ctx}, nil}
 }
 
-func (c *chanGenerator[T]) Yield() (contracts.IteratorToSlice[T], error) {
+func (c *chanGenerator[T]) Yield() error {
 	select {
 	case <-c.ctx.Done():
-		return nil, contracts.ErrContextDone
+		return contracts.ErrContextDone
 	case value := <-c.ChanType:
 		c.Type = append(c.Type, value)
 	}
-	return c, nil
+	return nil
 }
 
 func (c *chanGenerator[T]) ToSlice() contracts.Sequence[T] {
@@ -45,7 +45,7 @@ func IteratorToSlice[T any](ctx context.Context, c contracts.Channel[T]) (_ cont
 	go func() {
 		defer wg.Done()
 		for {
-			_, err = reader.Yield()
+			err = reader.Yield()
 			if err != nil {
 				break
 			}

@@ -33,3 +33,7 @@ type ToMap[K comparable, V any] interface {
 type ToChannel[T any] interface {
 	ToChannel() chan T
 }
+
+type Length interface {
+	Length() int
+}

@@ -10,3 +10,7 @@ type Type[T any] contracts.SequenceType[T]
 func FromSlice[T any](list []T) contracts.Sequence[T] {
 	return Type[T](list)
 }
+
+func (s Type[T]) Length() int {
+	return len(s)
+}

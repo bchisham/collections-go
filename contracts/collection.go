@@ -25,6 +25,7 @@ type Sequence[T any] interface {
 	Every(f UnaryPredicate[T]) (bool, error)
 	// EveryMust returns true if every item in the sequence satisfies the predicate.
 	EveryMust(f UnaryPredicateMust[T]) bool
+	Length() int
 }
 
 // ContextualSequence is a type that represents a sequence of type T with a context.

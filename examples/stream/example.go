@@ -17,6 +17,7 @@ func ChannelExample() {
 	defer cancelFunc()
 
 	ch := stream.NewChan[int]()
+	defer func() { _ = ch.Close() }()
 
 	sliceOfInts := sequence.FromSlice([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
 
@@ -32,7 +33,6 @@ func ChannelExample() {
 	outputSequence, _ := stream.IteratorToSlice(dlCtx, ch)
 
 	wg.Wait()
-
 	err = outputSequence.Each(examples.PrintItem[int])
 	if err != nil {
 		fmt.Println(err)
