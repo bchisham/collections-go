@@ -43,6 +43,8 @@ func (c *chanWrapper[T]) Send(value T) error {
 	return nil
 }
 
+func (c *chanWrapper[T]) Close() { close(c) }
+
 func (c *chanWrapper[T]) Receive() (t T, _ error) {
 	select {
 	case <-c.ctx.Done():
