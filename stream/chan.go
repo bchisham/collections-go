@@ -51,3 +51,17 @@ func (c *chanWrapper[T]) Receive() (t T, _ error) {
 		return v, nil
 	}
 }
+
+func (c *chanWrapper[T]) Each(f contracts.ApplyFunc[T]) error {
+	for {
+		select {
+		case <-c.ctx.Done():
+			return contracts.ErrContextDone
+		case v := <-c.ChanType:
+			err := f(v)
+			if err != nil {
+				return err
+			}
+		}
+	}
+}
