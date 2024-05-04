@@ -2,7 +2,7 @@
 
 ## Description
 Collections Go is a library that provides a set of collections for Go.
-It provides methods to manipulate collections in a functional way.
+It provides methods to manipulate collections.
 
 ## Sequence
 A sequence is a collection that has an order.
