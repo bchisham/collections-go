@@ -25,5 +25,6 @@ func (seq *accumulator[T, U]) Yield() error {
 }
 
 func (seq *accumulator[T, U]) ToSlice() contracts.Sequence[U] {
-	return seq.Output
+
+	return FromSlice(seq.Output)
 }

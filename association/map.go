@@ -20,9 +20,9 @@ func (m Type[T, U]) Each(f contracts.ApplyFunc[U]) error {
 	return nil
 }
 
-func (m Type[T, U]) Every(f contracts.MapPredicate[T, U]) (bool, error) {
-	for k, v := range m {
-		if ok, err := f(k, v); err != nil {
+func (m Type[T, U]) Every(f contracts.UnaryPredicate[U]) (bool, error) {
+	for _, v := range m {
+		if ok, err := f(v); err != nil {
 			return false, err
 		} else if !ok {
 			return false, nil
@@ -31,9 +31,9 @@ func (m Type[T, U]) Every(f contracts.MapPredicate[T, U]) (bool, error) {
 	return true, nil
 }
 
-func (m Type[T, U]) EveryMust(f contracts.MapPredicateMust[T, U]) bool {
-	for k, v := range m {
-		if !f(k, v) {
+func (m Type[T, U]) EveryMust(f contracts.UnaryPredicateMust[U]) bool {
+	for _, v := range m {
+		if !f(v) {
 			return false
 		}
 	}
@@ -41,10 +41,10 @@ func (m Type[T, U]) EveryMust(f contracts.MapPredicateMust[T, U]) bool {
 
 }
 
-func (m Type[T, U]) Where(f contracts.MapPredicate[T, U]) (contracts.Map[T, U], error) {
+func (m Type[T, U]) Where(f contracts.UnaryPredicate[U]) (contracts.Map[T, U], error) {
 	result := make(map[T]U)
 	for k, v := range m {
-		if ok, err := f(k, v); err != nil {
+		if ok, err := f(v); err != nil {
 			return nil, err
 		} else if ok {
 			result[k] = v
@@ -53,10 +53,10 @@ func (m Type[T, U]) Where(f contracts.MapPredicate[T, U]) (contracts.Map[T, U], 
 	return FromMap(result), nil
 }
 
-func (m Type[T, U]) WhereMust(f contracts.MapPredicateMust[T, U]) contracts.Map[T, U] {
+func (m Type[T, U]) WhereMust(f contracts.UnaryPredicateMust[U]) contracts.Map[T, U] {
 	result := make(map[T]U)
 	for k, v := range m {
-		if f(k, v) {
+		if f(v) {
 			result[k] = v
 		}
 	}
@@ -68,7 +68,7 @@ func (m Type[T, U]) Keys() contracts.Sequence[T] {
 	for k := range m {
 		keys = append(keys, k)
 	}
-	return keys
+	return sequence.FromSlice(keys)
 }
 
 func (m Type[T, U]) Values() contracts.Sequence[U] {
@@ -76,7 +76,7 @@ func (m Type[T, U]) Values() contracts.Sequence[U] {
 	for _, v := range m {
 		values = append(values, v)
 	}
-	return values
+	return sequence.FromSlice(values)
 }
 
 func (m Type[T, U]) ToMap() map[T]U {

@@ -34,6 +34,26 @@ type ToChannel[T any] interface {
 	ToChannel() chan T
 }
 
+type Each[T any] interface {
+	Each(f ApplyFunc[T]) error
+}
+
+type Every[T any] interface {
+	Every(f UnaryPredicate[T]) (bool, error)
+}
+
+type EveryMust[T any] interface {
+	EveryMust(f UnaryPredicateMust[T]) bool
+}
+
 type Length interface {
 	Length() int
+}
+
+type Where[T any] interface {
+	Where(f UnaryPredicate[T]) (Sequence[T], error)
+}
+
+type WhereMust[T any] interface {
+	WhereMust(f UnaryPredicateMust[T]) Sequence[T]
 }

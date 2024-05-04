@@ -11,6 +11,6 @@ func FromSlice[T any](list []T) contracts.Sequence[T] {
 	return Type[T](list)
 }
 
-func (s Type[T]) Length() int {
-	return len(s)
+func (seq Type[T]) Length() int {
+	return len(seq)
 }

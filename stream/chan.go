@@ -38,6 +38,18 @@ func (c ChanType[T]) ToChannel() chan T {
 	return c
 }
 
+func (c ChanType[T]) Each(f contracts.ApplyFunc[T]) error {
+	for {
+		select {
+		case v := <-c:
+			err := f(v)
+			if err != nil {
+				return err
+			}
+		}
+	}
+}
+
 func (c *chanWrapper[T]) Send(value T) error {
 	c.ChanType <- value
 	return nil

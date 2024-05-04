@@ -13,7 +13,7 @@ func Examples() {
 	_ = mapOfInts.Each(examples.PrintItem[int])
 	fmt.Println("Every")
 	//every item is greater than 0
-	every, err := mapOfInts.Every(func(k int, v int) (bool, error) {
+	every, err := mapOfInts.Every(func(v int) (bool, error) {
 		return v > 0, nil
 	})
 	if err != nil {
@@ -23,7 +23,7 @@ func Examples() {
 	}
 	fmt.Println("Filter")
 	//filter the map
-	filtered, err := mapOfInts.Where(func(k int, v int) (bool, error) {
+	filtered, err := mapOfInts.Where(func(v int) (bool, error) {
 		return v > 3, nil
 	})
 	if err != nil {

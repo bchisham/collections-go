@@ -22,21 +22,18 @@ func (b ContextualMapBuilder[T, U]) FromMap(m Type[T, U]) contracts.MapWithConte
 	return contextualMap[T, U]{m: m, ctx: b.ctx}
 }
 
-func (m contextualMap[T, U]) Each(f contracts.MapPredicateWithContext[T, U]) error {
-	for k, v := range m.m {
-		if result, err := f(m.ctx, k, v); err != nil {
+func (m contextualMap[T, U]) Each(f contracts.ApplyWithContextFunc[U]) error {
+	for _, v := range m.m {
+		if err := f(m.ctx, v); err != nil {
 			return err
-		} else if !result {
-			return contracts.ErrAssertionFailed
-
 		}
 	}
 	return nil
 }
 
-func (m contextualMap[T, U]) Every(f contracts.MapPredicateWithContext[T, U]) (bool, error) {
-	for k, v := range m.m {
-		if ok, err := f(m.ctx, k, v); err != nil {
+func (m contextualMap[T, U]) Every(f contracts.ContextPredicate[U]) (bool, error) {
+	for _, v := range m.m {
+		if ok, err := f(m.ctx, v); err != nil {
 			return false, err
 		} else if !ok {
 			return false, nil
@@ -45,10 +42,10 @@ func (m contextualMap[T, U]) Every(f contracts.MapPredicateWithContext[T, U]) (b
 	return true, nil
 }
 
-func (m contextualMap[T, U]) Where(f contracts.MapPredicateWithContext[T, U]) (contracts.MapWithContext[T, U], error) {
+func (m contextualMap[T, U]) Where(f contracts.ContextPredicate[U]) (contracts.MapWithContext[T, U], error) {
 	result := make(map[T]U)
 	for k, v := range m.m {
-		if ok, err := f(m.ctx, k, v); err != nil {
+		if ok, err := f(m.ctx, v); err != nil {
 			return nil, err
 		} else if ok {
 			result[k] = v
