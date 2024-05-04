@@ -1,8 +1,8 @@
 package sequence
 
 import (
-	"collections-go/contracts"
 	"context"
+	"github.com/bchisham/collections-go/contracts"
 )
 
 func WithContext[T any](ctx context.Context) ContextualSequenceBuilder[T] {
@@ -46,7 +46,7 @@ func (seq ContextualSequence[T]) FirstWhere(predicate contracts.ContextPredicate
 
 func (seq ContextualSequence[T]) Where(f contracts.ContextPredicate[T]) (contracts.Sequence[T], error) {
 	var r Type[T]
-	for _, v := range seq.Sequence {
+	for _, v := range seq.Sequence.ToSlice() {
 		ok, err := f(seq.ctx, v)
 		if err != nil {
 			return nil, err

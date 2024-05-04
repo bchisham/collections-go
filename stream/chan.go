@@ -1,8 +1,8 @@
 package stream
 
 import (
-	"collections-go/contracts"
 	"context"
+	"github.com/bchisham/collections-go/contracts"
 )
 
 type ChanType[T any] chan T

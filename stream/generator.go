@@ -1,9 +1,9 @@
 package stream
 
 import (
-	"collections-go/contracts"
-	"collections-go/sequence"
 	"context"
+	"github.com/bchisham/collections-go/contracts"
+	"github.com/bchisham/collections-go/sequence"
 	"sync"
 )
 

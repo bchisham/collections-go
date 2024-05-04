@@ -1,8 +1,8 @@
 package association
 
 import (
-	"collections-go/contracts"
-	"collections-go/pair"
+	"github.com/bchisham/collections-go/contracts"
+	"github.com/bchisham/collections-go/pair"
 )
 
 type Joiner[U any, T comparable, V any] struct {

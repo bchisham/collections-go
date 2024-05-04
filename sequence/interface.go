@@ -1,7 +1,7 @@
 package sequence
 
 import (
-	"collections-go/contracts"
+	"github.com/bchisham/collections-go/contracts"
 )
 
 type Type[T any] contracts.SequenceType[T]

@@ -1,6 +1,6 @@
 package association
 
-import "collections-go/contracts"
+import "github.com/bchisham/collections-go/contracts"
 
 // Zip takes two sequences and returns a map of the two sequences zipped together.
 func Zip[T comparable, U any](seq1 contracts.Sequence[T], seq2 contracts.Sequence[U]) contracts.Map[T, U] {

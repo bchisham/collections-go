@@ -1,4 +1,4 @@
-module collections-go
+module github.com/bchisham/collections-go
 
 go 1.21
 

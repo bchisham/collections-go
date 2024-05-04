@@ -1,7 +1,7 @@
 package main
 
 import (
-	"collections-go/examples/sequence"
+	"github.com/bchisham/collections-go/examples/sequence"
 )
 
 func main() {

@@ -1,11 +1,11 @@
 package stream
 
 import (
-	"collections-go/examples"
-	"collections-go/sequence"
-	"collections-go/stream"
 	"context"
 	"fmt"
+	"github.com/bchisham/collections-go/examples"
+	"github.com/bchisham/collections-go/sequence"
+	"github.com/bchisham/collections-go/stream"
 	"sync"
 	"time"
 )

@@ -1,8 +1,8 @@
 package association
 
 import (
-	"collections-go/contracts"
-	"collections-go/sequence"
+	"github.com/bchisham/collections-go/contracts"
+	"github.com/bchisham/collections-go/sequence"
 )
 
 type Type[T comparable, U any] contracts.MapType[T, U]

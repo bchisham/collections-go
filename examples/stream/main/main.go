@@ -1,6 +1,6 @@
 package main
 
-import "collections-go/examples/stream"
+import "github.com/bchisham/collections-go/examples/stream"
 
 func main() {
 	stream.ChannelExample()

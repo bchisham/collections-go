@@ -1,6 +1,6 @@
 package sequence
 
-import "collections-go/contracts"
+import "github.com/bchisham/collections-go/contracts"
 
 type accumulator[T any, U any] struct {
 	Type[T]

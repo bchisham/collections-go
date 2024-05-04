@@ -1,11 +1,11 @@
 package association
 
 import (
-	"collections-go/association"
-	"collections-go/examples"
-	"collections-go/pair"
-	"collections-go/sequence"
 	"fmt"
+	"github.com/bchisham/collections-go/association"
+	"github.com/bchisham/collections-go/examples"
+	"github.com/bchisham/collections-go/pair"
+	"github.com/bchisham/collections-go/sequence"
 )
 
 func Examples() {

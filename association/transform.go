@@ -1,8 +1,8 @@
 package association
 
 import (
-	"collections-go/contracts"
 	"context"
+	"github.com/bchisham/collections-go/contracts"
 )
 
 type mapTransform[U any, K comparable, V1 any] struct {

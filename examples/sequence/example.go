@@ -1,10 +1,10 @@
 package sequence
 
 import (
-	"collections-go/contracts"
-	"collections-go/examples"
-	"collections-go/sequence"
 	"fmt"
+	"github.com/bchisham/collections-go/contracts"
+	"github.com/bchisham/collections-go/examples"
+	"github.com/bchisham/collections-go/sequence"
 	"strconv"
 )
 

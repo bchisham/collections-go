@@ -1,6 +1,6 @@
 package sequence
 
-import "collections-go/contracts"
+import "github.com/bchisham/collections-go/contracts"
 
 func Sum[T any, N contracts.NumericType](list []T, f func(T) N) N {
 	var sum N

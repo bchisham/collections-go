@@ -1,8 +1,8 @@
 package sequence
 
 import (
-	"collections-go/contracts"
 	"context"
+	"github.com/bchisham/collections-go/contracts"
 )
 
 type TransformMustFunc[ItemTypeIn any, ItemTypeOut any] func(ItemTypeIn) ItemTypeOut

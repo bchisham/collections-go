@@ -1,6 +1,6 @@
 package sequence
 
-import "collections-go/contracts"
+import "github.com/bchisham/collections-go/contracts"
 
 func (seq Type[T]) Each(f contracts.ApplyFunc[T]) error {
 	for _, item := range seq {

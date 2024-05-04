@@ -1,8 +1,8 @@
 package contracts
 
 import (
-	"collections-go/pair"
 	"context"
+	"github.com/bchisham/collections-go/pair"
 )
 
 // ApplyFunc is a function that takes a value of type T and returns an error.

@@ -1,6 +1,6 @@
 package main
 
-import "collections-go/examples/association"
+import "github.com/bchisham/collections-go/examples/association"
 
 func main() {
 	association.Examples()
