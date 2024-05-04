@@ -4,6 +4,7 @@ import (
 	"collections-go/association"
 	"collections-go/examples"
 	"collections-go/pair"
+	"collections-go/sequence"
 	"fmt"
 )
 
@@ -48,4 +49,12 @@ func Examples() {
 		fmt.Println("joined map")
 		_ = joined.Each(examples.PrintItem[pair.Type[int, string]])
 	}
+
+	fmt.Println("Zip")
+	listOfInts := sequence.FromSlice([]int{1, 2, 3, 4, 5})
+	listOfStrings := sequence.FromSlice([]string{"one", "two", "three", "four", "five"})
+	zipped := association.Zip(listOfInts, listOfStrings)
+	fmt.Println("zipped map")
+	_ = zipped.Each(examples.PrintItem[string])
+
 }

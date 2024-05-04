@@ -1,6 +1,7 @@
 package sequence
 
 import (
+	"collections-go/contracts"
 	"collections-go/examples"
 	"collections-go/sequence"
 	"fmt"
@@ -50,4 +51,20 @@ func Examples() {
 	listOfStrings := sequence.NewTransformer[int, string](listOfInts).TransformMust(strconv.Itoa)
 	fmt.Println("list of strings")
 	_ = listOfStrings.Each(examples.PrintItem[string])
+
+	smallInts, largeInts := sequence.PartitionMust(listOfInts, func(i int) bool {
+		return i < 3
+	})
+	fmt.Println("small ints")
+	_ = smallInts.Each(examples.PrintItem[int])
+	fmt.Println("large ints")
+	_ = largeInts.Each(examples.PrintItem[int])
+
+	chunk := sequence.Chunk(listOfInts, 3)
+	fmt.Println("chunks of 3")
+	_ = chunk.Each(func(seq contracts.Sequence[int]) error {
+		fmt.Println("chunk")
+		_ = seq.Each(examples.PrintItem[int])
+		return nil
+	})
 }
