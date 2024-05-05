@@ -20,6 +20,10 @@ func FromChan[T any](c ChanType[T]) contracts.Channel[T] {
 	return &chanWrapper[T]{c, context.Background()}
 }
 
+func FromChanWithContext[T any](c ChanType[T], ctx context.Context) contracts.Channel[T] {
+	return &chanWrapper[T]{c, ctx}
+}
+
 func (c ChanType[T]) Send(value T) error {
 	c <- value
 	return nil
