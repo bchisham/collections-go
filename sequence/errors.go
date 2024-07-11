@@ -57,3 +57,6 @@ func (e Error) WithLength(length int) error {
 }
 
 var ErrEndOfSequence = Error{Message: "End of sequence"}
+var ErrEmptySequence = Error{Message: "Empty sequence"}
+var ErrInvalidLength = Error{Message: "Invalid length"}
+var ErrInvalidRange = Error{Message: "Invalid range"}

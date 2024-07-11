@@ -2,6 +2,38 @@ package sequence
 
 import "github.com/bchisham/collections-go/contracts"
 
+func (seq Type[T]) First() (f T, _ error) {
+	if len(seq) == 0 {
+		return f, ErrEmptySequence
+	}
+	return seq[0], nil
+}
+
+func (seq Type[T]) Last() (f T, _ error) {
+	if len(seq) == 0 {
+		return f, ErrEmptySequence
+	}
+	return seq[len(seq)-1], nil
+}
+
+func (seq Type[T]) Push(v T) {
+	seq = append(seq, v)
+}
+
+func (seq Type[T]) TrimTo(newLen int) (contracts.Sequence[T], error) {
+	if newLen < 0 || newLen > len(seq) {
+		return nil, ErrInvalidLength
+	}
+	return seq[:newLen], nil
+}
+
+func (seq Type[T]) Subsequence(start, end int) (contracts.Sequence[T], error) {
+	if start < 0 || end > len(seq) || start > end {
+		return nil, ErrInvalidRange
+	}
+	return seq[start:end], nil
+}
+
 func (seq Type[T]) Each(f contracts.ApplyFunc[T]) error {
 	for _, item := range seq {
 		if err := f(item); err != nil {

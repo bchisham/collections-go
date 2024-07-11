@@ -26,15 +26,20 @@ type Sequence[T any] interface {
 	EveryMust[T]
 	// FirstWhereMust returns the first item in the sequence that satisfies the predicate.
 	FirstWhereMust(predicate UnaryPredicateMust[T]) (result T, found bool)
+	First() (T, error)
+	Last() (T, error)
 	Length() int
 }
 
 // ContextualSequence is a type that represents a sequence of type T with a context.
 type ContextualSequence[T any] interface {
 	ToSlice[T]
+	ToSequence[T]
 	Each(f ApplyWithContextFunc[T]) error
+	Every(f ContextPredicate[T]) (bool, error)
 	Where(f ContextPredicate[T]) (Sequence[T], error)
 	FirstWhere(predicate ContextPredicate[T]) (T, bool, error)
+	Length() int
 }
 
 type Map[K comparable, V any] interface {

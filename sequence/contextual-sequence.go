@@ -31,6 +31,19 @@ func (seq ContextualSequence[T]) Each(f contracts.ApplyWithContextFunc[T]) error
 	return nil
 }
 
+func (seq ContextualSequence[T]) Every(f contracts.ContextPredicate[T]) (bool, error) {
+	for _, item := range seq.Sequence {
+		ok, err := f(seq.ctx, item)
+		if err != nil {
+			return false, err
+		}
+		if !ok {
+			return false, nil
+		}
+	}
+	return true, nil
+}
+
 func (seq ContextualSequence[T]) FirstWhere(predicate contracts.ContextPredicate[T]) (result T, found bool, err error) {
 	for _, item := range seq.Sequence {
 		ok, err := predicate(seq.ctx, item)
@@ -60,4 +73,12 @@ func (seq ContextualSequence[T]) Where(f contracts.ContextPredicate[T]) (contrac
 
 func (seq ContextualSequence[T]) ToSlice() []T {
 	return seq.Sequence
+}
+
+func (seq ContextualSequence[T]) ToSequence() contracts.Sequence[T] {
+	return seq.Sequence
+}
+
+func (seq ContextualSequence[T]) Length() int {
+	return len(seq.Sequence)
 }

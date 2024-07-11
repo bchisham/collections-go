@@ -26,6 +26,10 @@ type ToSlice[T any] interface {
 	ToSlice() []T
 }
 
+type ToSequence[T any] interface {
+	ToSequence() SequenceType[T]
+}
+
 type ToMap[K comparable, V any] interface {
 	ToMap() map[K]V
 }

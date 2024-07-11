@@ -53,3 +53,7 @@ func (m contextualMap[T, U]) Where(f contracts.ContextPredicate[U]) (contracts.M
 	}
 	return contextualMap[T, U]{m: result, ctx: m.ctx}, nil
 }
+
+func (m contextualMap[T, U]) ToMap() map[T]U {
+	return m.m
+}
