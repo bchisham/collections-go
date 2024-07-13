@@ -11,6 +11,10 @@ func FromSlice[T any](list []T) contracts.Sequence[T] {
 	return Type[T](list)
 }
 
+func FromItems[T any](items ...T) contracts.Sequence[T] {
+	return Type[T](items)
+}
+
 func (seq Type[T]) Length() int {
 	return len(seq)
 }

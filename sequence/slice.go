@@ -2,11 +2,27 @@ package sequence
 
 import "github.com/bchisham/collections-go/contracts"
 
+func (seq Type[T]) Assert(f contracts.UnaryPredicateMust[T]) error {
+	for _, item := range seq {
+		if !f(item) {
+			return ErrAssertionFailed
+		}
+	}
+	return nil
+}
+
 func (seq Type[T]) First() (f T, _ error) {
 	if len(seq) == 0 {
 		return f, ErrEmptySequence
 	}
 	return seq[0], nil
+}
+
+func (seq Type[T]) At(index int) (f T, _ error) {
+	if index < 0 || index >= len(seq) {
+		return f, ErrIndexOutOfBounds
+	}
+	return seq[index], nil
 }
 
 func (seq Type[T]) Last() (f T, _ error) {
@@ -16,8 +32,8 @@ func (seq Type[T]) Last() (f T, _ error) {
 	return seq[len(seq)-1], nil
 }
 
-func (seq Type[T]) Push(v T) {
-	seq = append(seq, v)
+func (seq Type[T]) Push(v T) contracts.Sequence[T] {
+	return append(seq, v)
 }
 
 func (seq Type[T]) TrimTo(newLen int) (contracts.Sequence[T], error) {
@@ -41,6 +57,12 @@ func (seq Type[T]) Each(f contracts.ApplyFunc[T]) error {
 		}
 	}
 	return nil
+}
+
+func (seq Type[T]) EachMust(f contracts.ApplyFuncMust[T]) {
+	for _, item := range seq {
+		f(item)
+	}
 }
 
 func (seq Type[T]) EveryMust(f contracts.UnaryPredicateMust[T]) bool {
@@ -73,6 +95,13 @@ func (seq Type[T]) FirstWhereMust(predicate contracts.UnaryPredicateMust[T]) (re
 		}
 	}
 	return result, false
+}
+
+func (seq Type[T]) Mutate(index int, f contracts.ApplyAtFunc[T]) error {
+	if index < 0 || index >= len(seq) {
+		return ErrIndexOutOfBounds
+	}
+	return f(index, seq[index])
 }
 
 func (seq Type[T]) Where(f contracts.UnaryPredicate[T]) (contracts.Sequence[T], error) {

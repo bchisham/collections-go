@@ -1,47 +1,93 @@
 package sequence
 
-import "github.com/bchisham/collections-go/contracts"
+import (
+	"fmt"
+	"github.com/bchisham/collections-go/contracts"
+	"strings"
+)
 
-func DotProduct[T any, N contracts.NumericType](a []T, b []T, f func(T) N) N {
-	var sum N
-	for i, item := range a {
-		sum += f(item) * f(b[i])
-	}
-	return sum
+type vector[T contracts.NumericType] []T
+
+func FromNumericSlice[N contracts.NumericType](nseq []N) contracts.Vector[N] {
+	return vector[N](nseq)
 }
 
-func CrossProduct[T any, N contracts.NumericType](a []T, b []T, f func(T) N) N {
-	var sum N
-	for i, item := range a {
-		sum += f(item) * f(b[i])
-	}
-	return sum
+func (v vector[T]) ToSlice() []T {
+	return v
 }
 
-func ToMatrix[T any, N contracts.NumericType](seq []T, f func(T) N, rows, cols int) [][]N {
-	matrix := make([][]N, rows)
-	for i := 0; i < rows; i++ {
-		matrix[i] = make([]N, cols)
-		for j := 0; j < cols; j++ {
-			matrix[i][j] = f(seq[i*cols+j])
+func (v vector[T]) ToSequence() contracts.Sequence[T] {
+	return Type[T](v)
+}
+
+func (v vector[T]) Length() int {
+	return len(v)
+}
+
+func (v vector[T]) DotProduct(other contracts.Vector[T]) T {
+	otherSeq := other.ToSequence().ToSlice()
+	if v.Length() != len(otherSeq) {
+		return 0
+	}
+	var result T
+	for i, item := range v {
+		result += item * otherSeq[i]
+	}
+	return result
+}
+
+func (v vector[T]) Add(other contracts.Vector[T]) contracts.Vector[T] {
+	otherSeq := other.ToSequence().ToSlice()
+	if v.Length() != len(otherSeq) {
+		return nil
+	}
+	result := make(vector[T], v.Length())
+	for i, item := range v {
+		result[i] = item + otherSeq[i]
+	}
+	return result
+}
+
+func (v vector[T]) Subtract(other contracts.Vector[T]) contracts.Vector[T] {
+	otherSeq := other.ToSequence().ToSlice()
+	if v.Length() != len(otherSeq) {
+		return nil
+	}
+	result := make(vector[T], v.Length())
+	for i, item := range v {
+		result[i] = item - otherSeq[i]
+	}
+	return result
+}
+
+func (v vector[T]) CrossProduct(other contracts.Vector[T]) contracts.Vector[T] {
+	otherSeq := other.ToSequence().ToSlice()
+	if v.Length() != len(otherSeq) {
+		return nil
+	}
+	result := make(vector[T], v.Length())
+	for i, item := range v {
+		result[i] = item * otherSeq[i]
+	}
+	return result
+}
+func (v vector[T]) Scale(factor T) contracts.Vector[T] {
+	result := make(vector[T], v.Length())
+	for i, item := range v {
+		result[i] = item * factor
+	}
+	return result
+}
+
+func (v vector[T]) String() string {
+	buf := strings.Builder{}
+	buf.WriteString("[")
+	for i, item := range v {
+		if i > 0 {
+			buf.WriteString(", ")
 		}
+		buf.WriteString(fmt.Sprintf("%v", item))
 	}
-	return matrix
-}
-
-func MatrixProduct[T any, N contracts.NumericType](a [][]N, b [][]N) [][]N {
-	rows := len(a)
-	cols := len(b[0])
-	product := make([][]N, rows)
-	for i := 0; i < rows; i++ {
-		product[i] = make([]N, cols)
-		for j := 0; j < cols; j++ {
-			var sum N
-			for k := 0; k < len(b); k++ {
-				sum += a[i][k] * b[k][j]
-			}
-			product[i][j] = sum
-		}
-	}
-	return product
+	buf.WriteString("]")
+	return buf.String()
 }

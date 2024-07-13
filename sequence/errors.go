@@ -56,7 +56,12 @@ func (e Error) WithLength(length int) error {
 
 }
 
+var ErrEmptyBasis = Error{Message: "Empty basis"}
+var ErrEmptyVector = Error{Message: "Empty vector"}
+var ErrInvalidDimensions = Error{Message: "Invalid dimensions"}
+var ErrAssertionFailed = Error{Message: "Assertion failed"}
 var ErrEndOfSequence = Error{Message: "End of sequence"}
 var ErrEmptySequence = Error{Message: "Empty sequence"}
 var ErrInvalidLength = Error{Message: "Invalid length"}
 var ErrInvalidRange = Error{Message: "Invalid range"}
+var ErrIndexOutOfBounds = Error{Message: "Index out of bounds"}

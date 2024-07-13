@@ -27,7 +27,7 @@ type ToSlice[T any] interface {
 }
 
 type ToSequence[T any] interface {
-	ToSequence() SequenceType[T]
+	ToSequence() Sequence[T]
 }
 
 type ToMap[K comparable, V any] interface {
@@ -40,6 +40,14 @@ type ToChannel[T any] interface {
 
 type Each[T any] interface {
 	Each(f ApplyFunc[T]) error
+}
+
+type EachMust[T any] interface {
+	EachMust(f ApplyFuncMust[T])
+}
+
+type Mutate[T any] interface {
+	Mutate(index int, f ApplyAtFunc[T]) error
 }
 
 type Every[T any] interface {
@@ -60,4 +68,8 @@ type Where[T any] interface {
 
 type WhereMust[T any] interface {
 	WhereMust(f UnaryPredicateMust[T]) Sequence[T]
+}
+
+type Assert[T any] interface {
+	Assert(f UnaryPredicateMust[T]) error
 }
