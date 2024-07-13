@@ -106,13 +106,14 @@ func Examples() {
 	multiplied, _ := twiceScaled.Multiply(threeXScaled)
 	fmt.Println("multiplied")
 	fmt.Println(multiplied.String())
-	//
-	//m1, _ := sequence.FromBasis(sequence.FromItems(v1, v2))
-	//m2 := m1.Transpose()
 
-	//fmt.Println("multiplication when r <> c")
-	//nsMultiply, _ := m1.Multiply(m2)
-	//fmt.Println("result")
-	//fmt.Println(nsMultiply.String())
+	m1, _ := sequence.FromBasis(sequence.FromItems(v1, v2))
+	m2 := m1.Transpose()
+
+	fmt.Println("multiplication when r <> c")
+	fmt.Println("m1: ", m1, "m2: ", m2)
+	nsMultiply, _ := m1.Multiply(m2)
+	fmt.Println("result")
+	fmt.Println(nsMultiply.String())
 
 }
