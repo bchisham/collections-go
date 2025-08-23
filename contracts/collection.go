@@ -16,6 +16,8 @@ type ApplyAtFunc[T any] func(index int, item T) error
 // ApplyWithContextFunc is a function that takes a context and a value of type T and returns an error.
 type ApplyWithContextFunc[T any] func(ctx context.Context, item T) error
 
+type FilterFunc[T any] func(item T) bool
+
 // Sequence is a type that represents a sequence of type T
 type Sequence[T any] interface {
 	ToSlice[T]
@@ -119,3 +121,5 @@ type MapTransformer[U any, K comparable, V any] interface {
 type MapWithContextTransformer[U any, K comparable, V any] interface {
 	Transform(f TransformFuncWithContext[V, U]) (Map[K, U], error)
 }
+
+type MutateFunc[T any] func(T) T
