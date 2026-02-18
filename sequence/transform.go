@@ -2,6 +2,7 @@ package sequence
 
 import (
 	"context"
+
 	"github.com/bchisham/collections-go/contracts"
 )
 
@@ -51,4 +52,12 @@ func (t transformer[T, U]) TransformMust(f TransformMustFunc[T, U]) contracts.Se
 
 func (t transformer[T, U]) ToSlice() []U {
 	return t.Output.ToSlice()
+}
+
+func MapMust[T any, U any](s Type[T], f TransformMustFunc[T, U]) contracts.Sequence[U] {
+	output := make(Type[U], len(s))
+	for i, v := range s {
+		output[i] = f(v)
+	}
+	return output
 }
